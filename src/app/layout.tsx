@@ -3,10 +3,10 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import {AuthProvider, useAuth} from "@/context/AuthContext";
-import React, {ReactNode, useEffect} from "react";
-import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
+import React, {ReactNode} from "react";
 import Header from "@/components/header";
+import {ThemeProvider} from "next-themes";
+import Login from "@/app/login/page";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,17 +20,13 @@ const geistMono = Geist_Mono({
 
 const AuthGuard = ({children}: { children: ReactNode }) => {
     const {user, loading} = useAuth();
-    const router = useRouter();
-    const pathname = usePathname();
-    useEffect(() => {
-        if (!loading && !user && pathname !== "/login") {
-            router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
-        }
-    }, [user, loading, router, pathname])
     if (loading) {
         return (<div></div>)
     }
-    if (user || pathname === "/login") {
+    if(!user) {
+        return (<Login />)
+    }
+    if (user) {
         return <>{children}</>
     }
     return null
@@ -46,14 +42,20 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>
-          <AuthGuard>
-            <div>
-              <Header />
-              {children}
-            </div>
-          </AuthGuard>
-        </AuthProvider>
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            disableTransitionOnChange
+        >
+            <AuthProvider>
+                <AuthGuard>
+                    <div>
+                        <Header />
+                        {children}
+                    </div>
+                </AuthGuard>
+            </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

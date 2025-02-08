@@ -1,5 +1,3 @@
-"use client"
-
 import { auth } from "@/lib/firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Button } from "../ui/button";

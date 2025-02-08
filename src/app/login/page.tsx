@@ -21,6 +21,9 @@ export default function Login() {
     }
 
     return (
-        <LoginForm />
+        <div className="flex flex-col items-center justify-center h-screen gap-8">
+            <h1 className="text-3xl font-bold">Wynnscribe Studio</h1>
+            <LoginForm />
+        </div>
     )
 }
