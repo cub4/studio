@@ -4,9 +4,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import {AuthProvider, useAuth} from "@/context/AuthContext";
 import React, {ReactNode} from "react";
-import Header from "@/components/header";
 import {ThemeProvider} from "next-themes";
 import Login from "@/app/login/page";
+import StudioSidebar from "@/components/sidebar";
+import Header from "@/components/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,7 +51,7 @@ export default function RootLayout({
             <AuthProvider>
                 <AuthGuard>
                     <div>
-                        <Header />
+                        <StudioSidebar />
                         {children}
                     </div>
                 </AuthGuard>
